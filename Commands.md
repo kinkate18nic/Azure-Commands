@@ -1,18 +1,31 @@
 # Azure CLI commands
-    - az login
-    - az account show --output jsonc
+```
+- az login
+```
+```
+- az account show --output jsonc
+```
 
   - **If you have multiple subscriptions then the following commands may be used to switch context.**
-
-        - az account list --output table
-        - az account set --subscription <subscriptionId> #set context of subscription   
-        - az account show
+```
+    - az account list --output table
+```
+```
+    - az account set --subscription <subscriptionId> #set context of subscription
+```
+```
+    - az account show
+```
 
   - **Register providers, some subscriptions do not have necessary resource provider enabled to use varios features, below example is for Microsoft.Insights provider**
   - Syntax [az provider register --namespace "provider_name"]
-        - az provider register --namespace Microsoft.Insights 
+    ```
+        - az provider register --namespace Microsoft.Insights
+    ```
     - to check registrationstion use:
-        - az provider show --namespace Microsoft.Insights --query registrationState --output tsv
+      ```
+      - az provider show --namespace Microsoft.Insights --query registrationState --output tsv
+      ```
      
 
 ## Create resource group using for loop 
