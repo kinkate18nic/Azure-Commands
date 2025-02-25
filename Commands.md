@@ -41,3 +41,19 @@
     for urn in $(az vm image list --all --publisher cisco --offer cisco-csr-1000v --sku 16_6 --query '[].urn' --output tsv)
     do az vm image accept-terms --urn $urn
     done
+
+
+## Deploy to RG
+
+### Using template-uri paramter
+```
+master=https://raw.githubusercontent.com/kinkate18nic/vdc-networking-lab/master/DeployVDCwithNVA.json
+```
+```
+az deployment group create --name VDC-Create --resource-group VDC-Hub --template-uri $master --verbose
+```
+
+### Using template-file paramter
+```
+az deployment group create --resource-group <resource-group-name> --template-file <path-to-template>
+```
