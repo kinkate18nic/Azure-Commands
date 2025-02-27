@@ -1,5 +1,7 @@
 //This ARM scripts create Vnets
-//It creates one Hubvnet and 3 spoke vnets, spokes can be dynamically passed default is 3.
+//It creates one Hubvnet, Onprem and 3 spoke vnets, spokes can be dynamically passed default is 3.
+//Spokes vnet IP address range is also dynamic based on number of spoke vnets using copyindex.
+//Hub and Onprem have IP address range hard coded
 
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
