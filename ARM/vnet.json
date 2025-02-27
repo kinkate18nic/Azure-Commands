@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2021-06-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "spokeVnetNamePrefix": {
@@ -36,7 +36,7 @@
     "resources": [
         {
             "type": "Microsoft.Network/virtualNetworks",
-            "apiVersion": "2021-05-01",
+            "apiVersion": "2024-01-01",
             "name": "[concat(parameters('spokeVnetNamePrefix'), copyIndex(1))]",
             "location": "[parameters('location')]",
             "properties": {
@@ -67,7 +67,7 @@
         },
         {
             "type": "Microsoft.Network/virtualNetworks",
-            "apiVersion": "2021-05-01",
+            "apiVersion": "2024-01-01",
             "name": "Hub_VNet",
             "location": "[parameters('location')]",
             "properties": {
@@ -100,7 +100,7 @@
         },
         {
             "type": "Microsoft.Network/virtualNetworks",
-            "apiVersion": "2021-05-01",
+            "apiVersion": "2024-01-01",
             "name": "OnPrem_VNet",
             "location": "[parameters('location')]",
             "properties": {
