@@ -1,1 +1,136 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2021-06-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "spokeVnetNamePrefix": {
+            "type": "string",
+            "defaultValue": "Spoke_VNet",
+            "metadata": {
+                "description": "Prefix for the Spoke Virtual Networks."
+            }
+        },
+        "spokeVnetOctet1": {
+            "type": "string",
+            "defaultValue": "10.",
+            "metadata": {
+                "description": "First octet of the Spoke VNet IP space."
+            }
+        },
+        "spokeVnetCount": {
+            "type": "int",
+            "defaultValue": 3,
+            "minValue": 1,
+            "maxValue": 10,
+            "metadata": {
+                "description": "Number of Spoke VNets to be created (1-10)."
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Azure region for deployment."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2021-05-01",
+            "name": "[concat(parameters('spokeVnetNamePrefix'), copyIndex(1))]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[concat(parameters('spokeVnetOctet1'), copyIndex(1), '.0.0/16')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[concat(parameters('spokeVnetNamePrefix'), copyIndex(1), '-Subnet1')]",
+                        "properties": {
+                            "addressPrefix": "[concat(parameters('spokeVnetOctet1'), copyIndex(1), '.1.0/24')]"
+                        }
+                    },
+                    {
+                        "name": "[concat(parameters('spokeVnetNamePrefix'), copyIndex(1), '-Subnet2')]",
+                        "properties": {
+                            "addressPrefix": "[concat(parameters('spokeVnetOctet1'), copyIndex(1), '.2.0/24')]"
+                        }
+                    }
+                ]
+            },
+            "copy": {
+                "name": "vnetCopy",
+                "count": "[parameters('spokeVnetCount')]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2021-05-01",
+            "name": "Hub_VNet",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.101.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "Hub_VNet-Subnet1",
+                        "properties": {
+                            "addressPrefix": "10.101.1.0/24"
+                        }
+                    },
+                    {
+                        "name": "Hub_VNet-Subnet2",
+                        "properties": {
+                            "addressPrefix": "10.101.2.0/24"
+                        }
+                    },
+                    {
+                        "name": "GatewaySubnet",
+                        "properties": {
+                            "addressPrefix": "10.101.3.0/24"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2021-05-01",
+            "name": "OnPrem_VNet",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.102.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "OnPrem_VNet-Subnet1",
+                        "properties": {
+                            "addressPrefix": "10.102.1.0/24"
+                        }
+                    },
+                    {
+                        "name": "OnPrem_VNet-Subnet2",
+                        "properties": {
+                            "addressPrefix": "10.102.2.0/24"
+                        }
+                    },
+                    {
+                        "name": "GatewaySubnet",
+                        "properties": {
+                            "addressPrefix": "10.102.3.0/24"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
 
