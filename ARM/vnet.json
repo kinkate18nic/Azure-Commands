@@ -1,4 +1,5 @@
 //This ARM scripts create Vnets
+//It creates one Hubvnet and 3 spoke vnets, spokes can be dynamically passed default is 3.
 
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
